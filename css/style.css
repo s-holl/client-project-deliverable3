@@ -23,17 +23,27 @@
         --contrasting-background-color: #ffffff;
         --header-footer-background-color: rgb(39, 59, 44); ;
     }
-    nav li {
+    nav li :not(.meets-nav > li > a) {
         background-color: rgba(0, 0, 0, 0.55) !important;
     }
 
 }
 
 
-/* Define the sliding animation */
-@keyframes slide-in {
+@keyframes slide-in-left {
     from {
-        transform: translateX(-100%); /* Start off-screen to the left */
+        transform: translateX(-100%); /* Start off-screen to the LEFT */
+        opacity: 0;                   /* Start invisible */
+    }
+    to {
+        transform: translateX(0);     /* End at original position */
+        opacity: 1;                   /* Fully visible */
+    }
+}
+
+@keyframes slide-in-right {
+    from {
+        transform: translateX(100%); /* Start off-screen to the RIGHT */
         opacity: 0;                   /* Start invisible */
     }
     to {
@@ -51,6 +61,53 @@ body {
     font-family:'MS Sans Serif', 'Geneva', sans-serif;
 }
 
+/* ~~~~~~~~~~~~~~ HOME ~~~~~~~~~~~~~~ */
+.homepage-banner {
+    display: block;
+    animation: slide-in-left 0.75s ease forwards;
+    margin: 1.5em 0.2em;
+}
+
+.meets-heading h1 {
+    text-transform: uppercase;
+    animation: slide-in-right 0.75s ease forwards;
+    padding: 0.2em 0;
+    color: var(--contrasting-background-color) !important;
+    font-size: 20px;
+}
+
+.meets-nav ul {
+    margin: 0 4px;
+}
+
+.meets-nav li {
+    padding: 10px 0;
+    margin: 4px 0;
+    width: 98%;
+    text-align: center;
+    border: 10px solid black;
+}
+
+.meets-nav a {
+    color: black;
+    font-weight: bold;
+}
+
+.meets-nav a:active, .meets-nav a:focus {
+    text-transform: uppercase;
+}   
+
+.meets-nav > li:nth-child(odd){
+    animation: slide-in-left 0.75s ease forwards;
+}
+
+.meets-nav > li:nth-child(even) {
+    animation: slide-in-right 0.75s ease forwards;
+}
+
+.meets-nav > li > a {
+    text-transform: capitalize;
+}
 
 /* ~~~~~~~~~~~~~~ NAV ~~~~~~~~~~~~~~ */
 
@@ -89,7 +146,7 @@ nav ul {
     align-items: center;
 }
 
-nav li {
+nav li :not(.meets-nav > li > a) {
     background-color: rgba(255, 255, 255, 0.55);
     padding: 10px 0;
     margin: 4px 0;
@@ -109,7 +166,7 @@ nav a {
 
 
 
-nav li:active {
+nav li:not(.meets-nav li):active {
     background-color: var(--body-background-color) !important;
 }
 
@@ -424,11 +481,11 @@ footer a i {
 /* ~~~~~~~~~~~~~~ GENERAL/MISCELLANEOUS ~~~~~~~~~~~~~~ */
 
 /* alternating row colors */
-tr:nth-child(even), #individual-results .athlete:nth-child(even) h3, #individual-results .athlete:nth-child(even) {
+tr:nth-child(even), #individual-results .athlete:nth-child(even) h3, #individual-results .athlete:nth-child(even), .meets-nav > li:nth-child(even) {
     background-color: rgb(245, 245, 220);
     border-color: rgb(245, 245, 220);
 }
-tr:nth-child(odd), #individual-results .athlete:nth-child(odd) h3, #individual-results .athlete:nth-child(odd) {
+tr:nth-child(odd), #individual-results .athlete:nth-child(odd) h3, #individual-results .athlete:nth-child(odd), .meets-nav > li:nth-child(odd) {
     background-color: rgb(197, 221, 197);
     border-color: rgb(197, 221, 197);
 }
@@ -439,7 +496,7 @@ a {
     text-decoration-thickness: 0.1em;
 }
 
-a:focus {
+a:not(.meets-nav > li > a):focus {
     text-decoration: underline;
     color: var(--highlight-color) !important;
 }
@@ -449,7 +506,7 @@ section, #summary {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    nav a {
+    nav a, nav li {
         animation: none;
     }
 }
