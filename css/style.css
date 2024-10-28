@@ -23,7 +23,7 @@
         --contrasting-background-color: #ffffff;
         --header-footer-background-color: rgb(39, 59, 44); ;
     }
-    nav li:not(.meets-nav > li > a) {
+    nav li:not(.meets-nav > li) {
         background-color: rgba(0, 0, 0, 0.55) !important;
     }
 
