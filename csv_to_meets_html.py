@@ -107,7 +107,7 @@ def csv_to_html(csv_filename, output_folder):
         <dt>Time</dt><dd>{time}</dd>
         <dt>Grade</dt><dd>{grade}</dd>
     </dl>
-        <img src="../images/profiles/{profile_pic}" width="200" alt="Profile picture of {name}">
+        <img src="../images/profiles/{profile_pic}" onerror="this.onerror=null; this.src='../images/default_image.jpg';" width="200" alt="Profile picture of {name}">
 </div>
 """
 
