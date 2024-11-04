@@ -11,9 +11,7 @@ document.querySelectorAll('#summary .athlete').forEach(span => {
     // Find the corresponding h3 and the associated Results
     const targetHeader = Array.from(document.querySelectorAll('.athlete h3')).find(h3 => h3.textContent === textToLink);
     
-    /* match background color of name in the summary to that of the corresponding individual results header */
-    const heading_color = window.getComputedStyle(targetHeader).backgroundColor;
-    span.style.backgroundColor = heading_color;
+    
 
     /* when clicked, link to individual results */
     span.addEventListener('click', () => {
