@@ -3,8 +3,8 @@ function sortItems(sort_option) {
     const items = Array.from(document.querySelectorAll('#individual-results .athlete'));
     
     items.sort((a, b) => {
-        const nameA = a.querySelector('h3').textContent.trim();
-        const nameB = b.querySelector('h3').textContent.trim();
+        const nameA = a.querySelector('button').textContent.trim();
+        const nameB = b.querySelector('button').textContent.trim();
         
         // name - ascending
         if (sort_option === 'name-asc') {

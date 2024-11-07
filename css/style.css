@@ -1,5 +1,8 @@
 /* Default Styling & Misc. queries */
 
+
+/* TODO: remove !important usages, also make athletes individual results links maybe, and also maybe do the lightbox thing for them, and also style the lightbox for the gallery stuff, also fix nav stuff for a desktop view, also maybe make the collapsible headers openable via keyboard? not really sure */
+
 :root {
     --h2-font-size: 24px;
     --h3-font-size: 16px;
@@ -17,17 +20,6 @@
 }
 
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --body-background-color: #000000;
-        --contrasting-background-color: #ffffff;
-        --header-footer-background-color: rgb(39, 59, 44); ;
-    }
-    nav li:not(.meets-nav > li) {
-        background-color: rgba(0, 0, 0, 0.55) !important;
-    }
-
-}
 
 
 @keyframes slide-in-left {
@@ -71,7 +63,7 @@ body {
 .meets-heading h1 {
     text-transform: uppercase;
     animation: slide-in-right 0.75s ease forwards;
-    padding: 0.2em 0;
+    padding: 1em 0;
     color: var(--contrasting-background-color) !important;
     font-size: 20px;
 }
@@ -81,16 +73,15 @@ body {
 }
 
 .meets-nav li {
-    padding: 10px 0;
     margin: 4px 0;
-    width: 98%;
     text-align: center;
-    border: 10px solid black;
 }
 
-.meets-nav a {
-    color: black;
+.meets-nav > li > a {
+    color: var(--contrasting-background-color);
     font-weight: bold;
+    text-transform:capitalize;
+
 }
 
 .meets-nav a:active, .meets-nav a:focus {
@@ -103,10 +94,6 @@ body {
 
 .meets-nav > li:nth-child(even) {
     animation: slide-in-right 0.75s ease forwards;
-}
-
-.meets-nav > li > a {
-    text-transform: capitalize;
 }
 
 /* ~~~~~~~~~~~~~~ NAV ~~~~~~~~~~~~~~ */
@@ -132,7 +119,7 @@ a.skip:focus {
     text-decoration-color: var(--link-underline-color);
 }
 
-nav {
+nav.meet-info-nav {
     background-color: var(--header-footer-background-color); 
     padding: 10px;
 }
@@ -144,24 +131,37 @@ nav ul {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-items: center;
 }
 
-nav li:not(.meets-nav > li > a) {
-    background-color: rgba(255, 255, 255, 0.55);
-    padding: 10px 0;
-    margin: 4px 0;
+nav:not(.meet-info-nav) > li {
+    /* background-color: rgba(255, 255, 255, 0.55); */
+    margin: 4px 4px;
     width: 100%;
     text-align: center;
     text-transform: uppercase;
     font-family: var(--alternate-font-family);
 }
 
+nav:not(.meet-info-nav) > li > a {
+    background-color: rgba(255, 255, 255, 0.55);
+    padding: 10px 4px;
+    text-transform: uppercase;
+    font-family: var(--alternate-font-family);
+}
+
+nav li {
+    justify-content: center;
+    width: 95vw;
+}
+
 nav a {
-    color: var(--contrasting-background-color); /* White text color */
-    padding: 10px 20px; /* Padding around the links */
-    width: 100%; /* Full-width links for easier tapping */
+    display:inline-block;
+    color: var(--contrasting-background-color);
+    padding: 10px 0px;
+    width: 90vw;
     text-align: center; /* Center align text */
-    animation: slide-in 0.75s ease forwards;
+    justify-content: center;
 }
 
 
@@ -251,6 +251,12 @@ section h2:first-of-type {
     color: var(--contrasting-background-color);
 }
 
+#summary a:focus {
+    span {
+        color: var(--highlight-color);
+    }
+}
+
 /* ~~~~~~~~~~~~~~ TEAM RESULTS ~~~~~~~~~~~~~~ */
 
 
@@ -276,6 +282,7 @@ th:first-of-type {
 td {
     font-size: var(--text-font-size);
     font-family: var(--font-family);
+    color: var(--contrasting-background-color);
     vertical-align: middle;
 }
 
@@ -284,15 +291,15 @@ td:last-of-type, td:first-of-type {
 }
 
 td:last-of-type {
-    padding-right: calc(var(--text-font-size));
+    padding-right: 5%;
 }
 
 td:first-of-type {
-    padding-right: calc(var(--text-font-size));
+    padding-right: 5%;
 }
 
 td:nth-of-type(2n) {
-    padding-left: calc(var(--text-font-size));
+    padding-left: 15%;
 }
 
 /* scroll-friendly table */
@@ -316,7 +323,8 @@ table {
 }
 
 /* make the border of the athlete name and the icon color = --highlight-color when actively being clicked on */
-body #individual-results .athlete h3:active {
+body #individual-results .athlete button:active {
+    border-width: 2px;
     border-color:var(--highlight-color);
     i {
         color: var(--highlight-color);
@@ -332,20 +340,28 @@ body #individual-results .athlete h3:active {
 select {
     border-style: solid;
     border-width: 2.5px;
-    border-color: black;
-    background-color: rgb(232, 232, 232);
-    color: rgb(0, 0, 0);
+    border-color: var(--contrasting-background-color);
+    background-color: var(--body-background-color);
+    color: var(--contrasting-background-color);
     margin: 1.5% auto;
     text-align: center;
 }
 
 select:focus {
-    background-color: rgb(213, 213, 213);
     border-color: var(--highlight-color);
 }
 
+.athlete {
+    background-color: var(--body-background-color);
+}
+
+#individual-results > .athlete:first-of-type {
+    padding-top: 10px;
+}
+
 /* sticky athlete names */
-.athlete h3 {
+.athlete button.toggle-athlete {
+    width:100%;
     display:flex;
     position: sticky;
     top: calc(var(--h2-font-size) * var(--line-height));
@@ -353,28 +369,23 @@ select:focus {
     cursor:pointer;
     height: 2.5em;
     align-items: center;
-    border-width:0.5px;
-    border-style:solid;
+    color:var(--contrasting-background-color);
     z-index: 3;
     text-transform: uppercase;
     font-style: normal;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-weight: bold;
     font-size: var(--h3-font-size);
+    margin: 2px 0;
 }
+
 
 #individual-results {
     display: grid;
 }
 
-/* TODO: style the stuff in the athlete dl grid. make font-size there and in table fit to screen width. */
 
-.athlete dl, img {
-    display:none;
-}
-
-
-.athlete dl .grid {
+.athlete dl  {
     display: grid;
     grid-template-columns: auto auto auto;
     grid-template-rows: auto auto;
@@ -388,11 +399,10 @@ select:focus {
 
 .athlete dl dt {
     grid-row: 1 / 1;
-    background-color: var(--body-background-color);
-    color: var(--contrasting-background-color);
     text-align: center;
     text-transform: uppercase;
     background-color: rgb(100, 100, 100);
+    width: 100%;
     color: rgb(239, 239, 239);
     font-weight: bold;
     padding-top: 0.25em;
@@ -401,8 +411,10 @@ select:focus {
 .athlete dl dd {
     grid-row: 2 / 2;
     border-width: 0.5em;
+    width: 100%;
     border-color: rgb(100, 100, 100);
     border-top-width: 0.25em;
+    color: var(--contrasting-background-color);
     border-style: solid;
     text-align: center;
 }
@@ -422,10 +434,10 @@ img {
 }
 
 #gallery h2 {
-    grid-column: 1/3;
+    grid-column: 1/-1;
 }
 
-#gallery img {
+#gallery a img {
     display: block;
     align-self: center;
 }
@@ -442,6 +454,7 @@ footer {
     overflow: auto;
     margin-top: 45px;
     padding-top: 20px;
+    justify-items: center;
 }
 
 footer p, footer address, footer a {
@@ -481,16 +494,15 @@ footer a i {
 /* ~~~~~~~~~~~~~~ GENERAL/MISCELLANEOUS ~~~~~~~~~~~~~~ */
 
 /* alternating row colors */
-tr:nth-child(even), #individual-results .athlete:nth-child(even) h3, #individual-results .athlete:nth-child(even), .meets-nav > li:nth-child(even) {
+tr:nth-child(even), #individual-results .athlete:nth-child(even) button, .meets-nav > li:nth-child(even) a {
     background-color: rgb(245, 245, 220);
-    border-color: rgb(245, 245, 220);
 }
-tr:nth-child(odd), #individual-results .athlete:nth-child(odd) h3, #individual-results .athlete:nth-child(odd), .meets-nav > li:nth-child(odd) {
+tr:nth-child(odd), #individual-results .athlete:nth-child(odd) button, .meets-nav > li:nth-child(odd) a {
     background-color: rgb(197, 221, 197);
-    border-color: rgb(197, 221, 197);
 }
 
 a {
+    cursor: pointer;
     text-decoration:underline;
     text-decoration-color: var(--link-underline-color);
     text-decoration-thickness: 0.1em;
@@ -501,11 +513,162 @@ a:not(.meets-nav > li > a):focus {
     color: var(--highlight-color) !important;
 }
 
+button, .meet-info-nav a {
+    cursor: pointer;
+    box-sizing: border-box;
+    border-width: 0.5vh;
+    border-color: transparent;
+    border-style:solid;
+}
+
+button:focus, .meet-info-nav a:focus {
+    border-color: var(--highlight-color);
+}
+
 section, #summary {
     margin-bottom: 25px;
 }
 
-@media (prefers-reduced-motion: reduce) {
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --body-background-color: #000000;
+        --contrasting-background-color: #ffffff;
+        --header-footer-background-color: rgb(39, 59, 44); ;
+    }
+    nav li:not(.meets-nav > li > a) a {
+        background-color: rgba(0, 0, 0, 0.55);
+    }
+    /* alternating row colors */
+    tr:nth-child(even), #individual-results .athlete:nth-child(even) button, .meets-nav > li:nth-child(even) a {
+        background-color: rgb(45, 45, 13);
+    }
+    tr:nth-child(odd), #individual-results .athlete:nth-child(odd) button, .meets-nav > li:nth-child(odd) a {
+        background-color: rgb(46, 67, 39);
+    }
+}
+
+@media screen and (min-width: 600px) {
+    /* NAV */
+
+    nav.meet-info-nav > ul {
+        flex-direction: row;
+        /* TODO: fix the rest of the nav loll */
+    }
+
+    nav > ul.meets-nav {
+        display: grid;
+        grid-template-columns: auto auto auto;
+       width:100%;
+       gap: 8px;
+    }
+    nav > ul.meets-nav > li {
+        justify-content: center;
+        width: 100%;
+        height:100%;
+        padding: 10px 10px;
+        margin: 4px 4px;
+    }
+
+    nav > ul.meets-nav > li > a {
+        align-content: center;
+        display: inline-block;
+        text-align: center;
+        height: 100%;
+        width: 100%;
+        padding: 0;
+    }
+
+    nav.meet-info-nav > ul > li {
+        margin: 0 4px;
+        padding: 4px 4px;
+    }
+    
+    nav.meet-info-nav > ul > li > a {
+        display: inline-block;
+        min-height: 70px;
+        height: 100%;
+        width: 100%;
+        align-content: center;
+        text-indent: 0%;
+        text-wrap:wrap;
+    }
+
+    /* INDIVIDUAL RESULTS */
+   .grid {
+        display:grid;
+        grid-template-columns: auto auto;
+        grid-template-rows: auto;
+        background-color: rgb(100, 100, 100);
+        max-height: 250px;
+    }
+
+    .athlete {
+        /* justify-self: center; */
+        /* width: 600px; */
+        padding: 0 10%;
+    }
+
+    .athlete dl dt, .athlete dl dd {
+        align-content: center;
+        width: inherit;
+    }
+
+    .athlete dd {
+        background-color: var(--body-background-color);
+        width: 10vw;
+    }
+
+    /* make individual results grid go column-wise */
+     .athlete dl {
+        grid-template-columns: auto;
+        grid-template-rows: repeat(6, 1fr);
+        order: 1;
+        height: 100%;
+        max-height: 250px;
+        width: 60vw;
+        justify-self: right;
+        border-bottom: 10px solid rgb(100, 100, 100);
+    }
+    .athlete dl dt, .athlete dl dd {
+        grid-column: 2 / 2;
+    }
+    .athlete dl dt:first-of-type {
+        grid-row: 1 / 1;
+    }
+    .athlete dl dd:first-of-type {
+        grid-row: 2 / 2;
+    }
+    .athlete dl dt:nth-of-type(2) {
+        grid-row: 3 / 3;
+    }
+    .athlete dl dd:nth-of-type(2) {
+        grid-row: 4 / 4;
+    }
+    .athlete dl dt:last-of-type {
+        grid-row: 5 / 5;
+    }
+    .athlete dl dd:last-of-type {
+        grid-row: 6 / 6;
+    } 
+    .athlete .grid > img {
+        order: 0;
+        box-sizing: border-box;
+        justify-self: center;
+        border: 2vw solid rgb(100, 100, 100);
+        width:auto;
+        max-height: 250px;
+    }
+
+    /* GALLERY */
+
+    #gallery {
+        /* 4 columns */
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media screen and (prefers-reduced-motion) {
     nav a, nav li {
         animation: none;
     }

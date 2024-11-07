@@ -29,13 +29,14 @@ def csv_to_html(csv_filename, output_folder):
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{link_text}</title>
+<link rel="stylesheet" href="../dist/css/lightbox.css"> 
 <link rel="stylesheet" href="../css/reset.css">
 <link rel="stylesheet" href="../css/style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
    <body>
    <a href = "#main" tabindex="0" class="skip">Skip to Main Content</a>
-   <nav>
+   <nav class="meet-info-nav">
      <ul>
         <li><a href="../index.html">Home Page</a></li>
         <li><a href="#summary">Summary</a></li>
@@ -90,7 +91,8 @@ def csv_to_html(csv_filename, output_folder):
                         <option value="name-desc">Sort by Name (Descending)</option>\n
                         <option value="place-asc">Sort by Place (Ascending)</option>\n
                         <option value="place-desc">Sort by Place (Descending)</option>\n
-                    </select>"""
+                    </select>
+                    """
 
                 place = row[0]
                 grade = row[1]
@@ -99,15 +101,26 @@ def csv_to_html(csv_filename, output_folder):
                 profile_pic = row[7]
 
                 # Add the athlete div
+                section_id = sanitize_to_html_id(name)
                 html_content += f"""
 <div class="athlete">
-    <h3><i aria-label="Collapsed" role="status" class="fas fa-plus-square"></i>{name}</h3>
-    <dl>
-        <dt>Place</dt><dd>{place}</dd>
-        <dt>Time</dt><dd>{time}</dd>
-        <dt>Grade</dt><dd>{grade}</dd>
-    </dl>
-        <img src="../images/profiles/{profile_pic}" onerror="this.onerror=null; this.src='../images/default_image.jpg';" width="200" alt="Profile picture of {name}">
+    <button class="toggle-athlete" aria-expanded="false" aria-controls="{section_id}" aria-label="Expand" onlick="toggleSection('{section_id}', this)"> 
+        <i aria-hidden="true" class="fas fa-plus-square">
+        </i>
+        {name}
+    </button>
+    <div class="section-athlete" id="{section_id}" hidden >
+        <div class="grid">
+        <dl>
+            <dt>Place</dt><dd>{place}</dd>
+            <dt>Time</dt><dd>{time}</dd>
+            <dt>Grade</dt><dd>{grade}</dd>
+        </dl>
+            <a href="../images/profiles/{profile_pic}" data-lightbox="j" target="_blank">
+            <img src="../images/profiles/{profile_pic}" onerror="this.onerror=null; this.src='../images/default_image.jpg';" width="200" alt="Profile picture of {name}">
+            </a>
+        </div>
+    </div>
 </div>
 """
 
@@ -135,8 +148,10 @@ def csv_to_html(csv_filename, output_folder):
 
                      </footer>
                      <script src="../js/sort_athletes.js"></script>
-                     <script src="../js/collapsible-header.js"></script>
+                     <script src="../js/collapsible-header-button.js"></script>
                      <script src="../js/link-athlete-names.js"></script>
+                     <script src="../js/image-missing.js"></script>
+                     <script src="../dist/js/lightbox-plus-jquery.js"></script>
         </body>
 </html>
 """
@@ -209,7 +224,7 @@ def generate_image_tags(image_files, folder_path):
     for img in image_files:
         img_path = os.path.join(folder_path, img)
         # print(f"The image_path is {img_path}")
-        img_tags.append(f'<img src=../{img_path} width = "200" alt="">')
+        img_tags.append(f'<a href="../{img_path}" data-lightbox="j" target="_blank"><img src=../{img_path} width = "200" alt=""> </a>')
     return "\n".join(img_tags)
 
 # Putting it all together
@@ -232,6 +247,20 @@ def create_meet_image_gallery(url):
     
     return html_image_tags
 
+def sanitize_to_html_id(input_string):
+    # Replace spaces with dashes
+    sanitized_string = input_string.replace(' ', '-')
+    
+    # Remove any invalid characters (anything that's not a letter, digit, hyphen, or underscore)
+    sanitized_string = re.sub(r'[^a-zA-Z0-9-_]', '', sanitized_string)
+    
+    # Ensure the string doesn't start with a digit (if it does, prepend a letter)
+    # Remove leading digits, if any
+    while sanitized_string and sanitized_string[0].isdigit():
+        sanitized_string = sanitized_string[1:]
+    
+    return sanitized_string
+
 # Example usage
 url = "https://www.athletic.net/CrossCountry/meet/235827/results/943367"
 html_gallery = create_meet_image_gallery(url)
@@ -245,3 +274,4 @@ if __name__ == "__main__":
         print(f"Folder '{meets_folder}' does not exist.")
     else:
         process_meet_files()
+
