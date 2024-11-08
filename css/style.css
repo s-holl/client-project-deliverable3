@@ -603,7 +603,7 @@ section, #summary {
         max-height: 250px;
     }
 
-    .athlete {
+    #individual-results > .athlete {
         /* justify-self: center; */
         /* width: 600px; */
         padding: 0 10%;
