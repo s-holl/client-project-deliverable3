@@ -702,12 +702,12 @@ section, #summary {
         order: 0;
         justify-self: center;
         width:auto;
-        max-height: 250px;
+        max-height: 240px;
     }
 
     .grid a {
         box-sizing: border-box;
-        border: 2vw solid rgb(100, 100, 100);
+        border: 5px solid rgb(100, 100, 100);
     }
 
     /* GALLERY */
