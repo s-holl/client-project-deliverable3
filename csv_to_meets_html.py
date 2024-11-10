@@ -225,7 +225,7 @@ def generate_image_tags(image_files, folder_path):
     for img in image_files:
         img_path = os.path.join(folder_path, img)
         # print(f"The image_path is {img_path}")
-        img_tags.append(f'<a href="../{img_path}" data-lightbox="j" target="_blank"><img src=../{img_path} width = "200" alt=""> </a>')
+        img_tags.append(f'<a href="../{img_path}" data-lightbox="Gallery" target="_blank" aria-label="gallery image"><img src=../{img_path} width = "200" alt=""> </a>')
     return "\n".join(img_tags)
 
 # Putting it all together
