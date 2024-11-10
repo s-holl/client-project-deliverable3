@@ -1,3 +1,4 @@
+/* toggle the visibility/expandibility of an athlete's individual results by clicking on the corresponding button. */
 function toggleSection(sectionId, button) {
     console.log('Button clicked!');
     const section = document.getElementById(sectionId);

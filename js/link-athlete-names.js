@@ -1,3 +1,4 @@
+// same as function in collapsible-header-button
 function toggleSection(sectionId, button) {
     console.log('TOGGLING');
     console.log('Button clicked!');
@@ -29,6 +30,7 @@ function toggleSection(sectionId, button) {
     console.log('END TOGGLING');
 }
 
+// translate the athlete's name into the corresponding HTML ID for the athlete
 function sanitizeToHTMLid(inputString) {
     // Replace spaces with dashes
     let sanitizedString = inputString.replace(/ /g, '-');
@@ -44,6 +46,7 @@ function sanitizeToHTMLid(inputString) {
     return sanitizedString;
 }
 
+// jump down to correct athlete section, expand if necessary
 function jumpAndExpand(a, event) {
     console.log("about to Jump and Expand!!");
     const sectionId = sanitizeToHTMLid(a.textContent);
@@ -81,10 +84,10 @@ function jumpAndExpand(a, event) {
     }
 }
 
-// Select all elements with the class 'c'
+// find all athlete names in the summary
 const elements = document.querySelectorAll('#summary .athlete');
 
-// Loop through each athlete in the summary and add a link to their inidividual result
+// for each athlete name in the summary, add a relative link to the athlete's corresponding sanitized ID
 elements.forEach((element) => {
     const anchor = document.createElement('a');
     anchor.href = '#' + sanitizeToHTMLid(element.textContent);
@@ -93,15 +96,15 @@ elements.forEach((element) => {
     anchor.appendChild(element);
 });
 
-
+// summary athlete name click/keydown triggers
 document.querySelectorAll('#summary a').forEach(a => {
-    /* when clicked, link to individual results */
     a.addEventListener('click', function(event) {
         console.log('Summary athlete name clicked!');
         jumpAndExpand(a, event);
     });
     a.addEventListener('keydown', function(event) {
         console.log('Keydown event triggered.');
+        // only for Enter or Spacebar
         if (event.key === 'Enter' || event.key === ' ') {
             console.log('Summary athlete name entered/spaced!');
             jumpAndExpand(a, event);
