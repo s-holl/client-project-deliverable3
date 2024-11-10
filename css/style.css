@@ -9,8 +9,8 @@
     --text-font-size: 13px;
     --line-height: 1.5;
     --sticky-header-vert-padding: calc(var(--h2-font-size) * 0.001);
-    --highlight-color: rgb(93, 181, 249);
-    --link-underline-color: rgb(36, 125, 193);
+    --text-highlight-color: rgb(36, 125, 193);
+    --alt-highlight-color: rgb(93, 181, 249);
     --font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     --font-family: 
     --alternate-font-family: Arial, Helvetica, sans-serif;
@@ -44,6 +44,17 @@
     }
 }
 
+@keyframes slide-in-up {
+    from {
+        transform: translateY(-100%); /* Start off-screen UP */
+        opacity: 0;                   /* Start invisible */
+    }
+    to {
+        transform: translateY(0);     /* End at original position */
+        opacity: 1;                   /* Fully visible */
+    }
+}
+
 
 
 body {
@@ -64,7 +75,7 @@ body {
     text-transform: uppercase;
     animation: slide-in-right 0.75s ease forwards;
     padding: 1em 0;
-    color: var(--contrasting-background-color) !important;
+    color: white;
     font-size: 20px;
 }
 
@@ -81,7 +92,7 @@ body {
     color: var(--contrasting-background-color);
     font-weight: bold;
     text-transform:capitalize;
-
+    border: 2px solid var(--header-footer-background-color);
 }
 
 .meets-nav a:active, .meets-nav a:focus {
@@ -96,16 +107,20 @@ body {
     animation: slide-in-right 0.75s ease forwards;
 }
 
+
+
 /* ~~~~~~~~~~~~~~ NAV ~~~~~~~~~~~~~~ */
 
 /* hide Skip To Main Content by default */
-a.skip {
+body > a.skip {
     position: absolute;
+    background-color: rgb(250, 235, 215);
+    color:black;
     top: -100vh;
 }
 
 /* show Skip To Main Content when tabbed onto */
-a.skip:focus {
+body > a.skip:focus {
     position: relative;
     top: 0vh;
     /* center */
@@ -114,9 +129,9 @@ a.skip:focus {
     text-align: center;
     /* style background */
     background-color: rgb(250, 235, 215);
-    color:black !important;
+    color:black;
     text-decoration-thickness: 0.1em;
-    text-decoration-color: var(--link-underline-color);
+    text-decoration-color: rgb(93, 181, 249);
 }
 
 nav.meet-info-nav {
@@ -134,7 +149,7 @@ nav ul {
     justify-items: center;
 }
 
-nav:not(.meet-info-nav) > li {
+nav.meet-info-nav > ul > li {
     /* background-color: rgba(255, 255, 255, 0.55); */
     margin: 4px 4px;
     width: 100%;
@@ -143,11 +158,12 @@ nav:not(.meet-info-nav) > li {
     font-family: var(--alternate-font-family);
 }
 
-nav:not(.meet-info-nav) > li > a {
+nav.meet-info-nav > ul > li > a {
     background-color: rgba(255, 255, 255, 0.55);
     padding: 10px 4px;
     text-transform: uppercase;
     font-family: var(--alternate-font-family);
+    border-color: transparent;
 }
 
 nav li {
@@ -160,33 +176,31 @@ nav a {
     color: var(--contrasting-background-color);
     padding: 10px 0px;
     width: 90vw;
-    text-align: center; /* Center align text */
+    text-align: center;
     justify-content: center;
 }
 
 
-
-nav li:not(.meets-nav li):active {
-    background-color: var(--body-background-color) !important;
+nav.meet-info-nav > ul > li:active {
+    background-color: var(--body-background-color);
 }
 
 
 /* ~~~~~~~~~~~~~~ HEADER ~~~~~~~~~~~~~~ */
 
-h1, header h2:first-of-type {
+
+/* date of the meet */
+header h2:first-of-type {
     background-color: rgb(58, 92, 63);
     color:aliceblue;
-}
-
-header h2:first-of-type {
     text-align: right;
     padding-right: 0.25em;
     padding-bottom: 0.25em;
     font-weight: normal;
 }
 
-header h1 a {
-    color: white !important;
+body > header > h1 > a {
+    color: white;
 }
 
 header {
@@ -194,12 +208,17 @@ header {
 }
 
 h1 {
-    font-size: 2.5em; /* Large font size for visibility */
-    color: #333; /* Dark text color */
-    text-align: center; /* Center the header text */
-    padding: 15px 10px; /* Padding on the sides for better readability */
-    line-height: 1.2; /* Increase line height for better spacing */
-    font-family: 'Arial', sans-serif; /* Choose a clean, modern font */
+    background-color: rgb(58, 92, 63);
+    font-size: 2.5em;
+    text-align: center;
+    padding: 15px 10px;
+    line-height: 1.2; 
+    font-family: 'Arial', sans-serif;
+}
+
+body > header > h1 > a:focus {
+    /* always using light highlight since theres always a dark background */
+    color: rgb(93, 181, 249);
 }
 
 /* ~~~~~~~~~~~~~~ SUBHEADINGS ~~~~~~~~~~~~~~ */
@@ -244,16 +263,12 @@ section h2:first-of-type {
 }
 
 #summary .athlete {
-    cursor:pointer;
-    text-decoration: underline;
-    text-decoration-color: var(--link-underline-color);
-    text-decoration-thickness: calc(var(--text-font-size) * 0.175);
     color: var(--contrasting-background-color);
 }
 
 #summary a:focus {
     span {
-        color: var(--highlight-color);
+        color: var(--text-highlight-color);
     }
 }
 
@@ -309,33 +324,20 @@ table {
     background-color: var(--body-background-color);
     border-spacing:0px;
     margin-top: 2vh;
+    border-bottom: 2px solid var(--header-footer-background-color);
 }
 
 /* ~~~~~~~~~~~~~~ INDIVIDUAL RESULTS ~~~~~~~~~~~~~~ */
 
 #individual-results {
     background-color: rgb(47, 79, 61);
+    display: grid;
 }
 
 #sort-options {
     border-radius: 4%;
     cursor:pointer;
 }
-
-/* make the border of the athlete name and the icon color = --highlight-color when actively being clicked on */
-body #individual-results .athlete button:active {
-    border-width: 2px;
-    border-color:var(--highlight-color);
-    i {
-        color: var(--highlight-color);
-    }
-}
-
-#individual-results i {
-    padding: 2%;
-    padding-right: 10%;
-}
-
 
 select {
     border-style: solid;
@@ -348,7 +350,7 @@ select {
 }
 
 select:focus {
-    border-color: var(--highlight-color);
+    border-color: rgb(93, 181, 249);
 }
 
 .athlete {
@@ -377,11 +379,24 @@ select:focus {
     font-weight: bold;
     font-size: var(--h3-font-size);
     margin: 2px 0;
+    border: 2px solid var(--header-footer-background-color);
+}
+
+/* highlight border of the athlete name and the icon color when actively being clicked on */
+body #individual-results .athlete button.toggle-athlete:active {
+    border-color:var(--alt-highlight-color);
+    i {
+        color: var(--alt-highlight-color);
+    }
 }
 
 
-#individual-results {
-    display: grid;
+
+#individual-results i {
+    color: var(--contrasting-background-color);
+    display: inline-block;
+    padding: 2%;
+    padding-right: 10%;
 }
 
 
@@ -422,8 +437,16 @@ select:focus {
 
 img {
     width:100%;
+    box-sizing: border-box;
+    border: 0.25em solid transparent;
 }
 
+
+.grid a:focus, #gallery a:focus {
+    img {
+        border-color: var(--text-highlight-color);
+    }
+}
 
 /* ~~~~~~~~~~~~~~ GALLERY ~~~~~~~~~~~~~~ */
 
@@ -483,11 +506,16 @@ footer a:first-of-type {
 
 footer a:last-of-type {
     grid-row: 2 / 2;
-
+    height:fit-content;
 }
 
 footer a i {
     margin-left: 6px;
+}
+
+footer a:focus {
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 
@@ -501,28 +529,26 @@ tr:nth-child(odd), #individual-results .athlete:nth-child(odd) button, .meets-na
     background-color: rgb(197, 221, 197);
 }
 
-a {
+body a {
     cursor: pointer;
     text-decoration:underline;
-    text-decoration-color: var(--link-underline-color);
+    text-decoration-color: var(--alt-highlight-color);
     text-decoration-thickness: 0.1em;
 }
 
-a:not(.meets-nav > li > a):focus {
-    text-decoration: underline;
-    color: var(--highlight-color) !important;
+body > :not(header) a:not(.meets-nav > li > a):not(.skip):focus {
+    color: var(--text-highlight-color);
 }
 
-button, .meet-info-nav a {
+.athlete button.toggle-athlete, .meet-info-nav a {
     cursor: pointer;
     box-sizing: border-box;
     border-width: 0.5vh;
-    border-color: transparent;
     border-style:solid;
 }
 
-button:focus, .meet-info-nav a:focus {
-    border-color: var(--highlight-color);
+#individual-results .athlete button.toggle-athlete:focus, .meet-info-nav a:focus {
+    border-color: var(--alt-highlight-color);
 }
 
 section, #summary {
@@ -534,10 +560,18 @@ section, #summary {
     :root {
         --body-background-color: #000000;
         --contrasting-background-color: #ffffff;
-        --header-footer-background-color: rgb(39, 59, 44); ;
+        --header-footer-background-color: rgb(39, 59, 44);
+        --text-highlight-color: rgb(93, 181, 249);
+        --alt-highlight-color: rgb(36, 125, 193);
     }
     nav li:not(.meets-nav > li > a) a {
         background-color: rgba(0, 0, 0, 0.55);
+    }
+    .meets-nav > li > a, #team-results table {
+        border: none;
+    }
+    #individual-results button {
+        border-color: transparent;
     }
     /* alternating row colors */
     tr:nth-child(even), #individual-results .athlete:nth-child(even) button, .meets-nav > li:nth-child(even) a {
@@ -546,15 +580,19 @@ section, #summary {
     tr:nth-child(odd), #individual-results .athlete:nth-child(odd) button, .meets-nav > li:nth-child(odd) a {
         background-color: rgb(46, 67, 39);
     }
+    /* a:not(.meets-nav > li > a):not(.skip):focus {
+        color: var(--light-highlight-color) !important;
+    }
+    #summary a:focus {
+        span {
+            color: var(--light-highlight-color);
+        }
+    } */
 }
 
 @media screen and (min-width: 600px) {
-    /* NAV */
 
-    nav.meet-info-nav > ul {
-        flex-direction: row;
-        /* TODO: fix the rest of the nav loll */
-    }
+    /* HOME */
 
     nav > ul.meets-nav {
         display: grid;
@@ -579,6 +617,12 @@ section, #summary {
         padding: 0;
     }
 
+    /* NAV */
+
+    nav.meet-info-nav > ul {
+        flex-direction: row;
+    }
+
     nav.meet-info-nav > ul > li {
         margin: 0 4px;
         padding: 4px 4px;
@@ -592,6 +636,7 @@ section, #summary {
         align-content: center;
         text-indent: 0%;
         text-wrap:wrap;
+        animation: slide-in-up 0.75s ease forwards;
     }
 
     /* INDIVIDUAL RESULTS */
@@ -602,6 +647,8 @@ section, #summary {
         background-color: rgb(100, 100, 100);
         max-height: 250px;
     }
+
+
 
     #individual-results > .athlete {
         /* justify-self: center; */
@@ -651,13 +698,16 @@ section, #summary {
     .athlete dl dd:last-of-type {
         grid-row: 6 / 6;
     } 
-    .athlete .grid > img {
+    .athlete .grid a > img {
         order: 0;
-        box-sizing: border-box;
         justify-self: center;
-        border: 2vw solid rgb(100, 100, 100);
         width:auto;
         max-height: 250px;
+    }
+
+    .grid a {
+        box-sizing: border-box;
+        border: 2vw solid rgb(100, 100, 100);
     }
 
     /* GALLERY */
@@ -669,7 +719,7 @@ section, #summary {
 }
 
 @media screen and (prefers-reduced-motion) {
-    nav a, nav li {
+    nav a, nav li, nav.meet-info-nav > ul > li > a {
         animation: none;
     }
 }

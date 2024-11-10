@@ -117,8 +117,8 @@ def csv_to_html(csv_filename, output_folder):
             <dt>Time</dt><dd>{time}</dd>
             <dt>Grade</dt><dd>{grade}</dd>
         </dl>
-            <a href="../images/profiles/{profile_pic}" data-lightbox="j" target="_blank">
-            <img src="../images/profiles/{profile_pic}" onerror="this.onerror=null; this.src='../images/default_image.jpg';" width="200" alt="Profile picture of {name}">
+            <a href="../images/profiles/{profile_pic}" data-lightbox="Athlete" target="_blank">
+            <img src="../images/profiles/{profile_pic}" width="200" alt="Profile picture of {name}">
             </a>
         </div>
     </div>
