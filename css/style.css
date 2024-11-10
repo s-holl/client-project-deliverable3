@@ -718,8 +718,9 @@ section, #summary {
     }
 }
 
-@media screen and (prefers-reduced-motion) {
-    nav a, nav li, nav.meet-info-nav > ul > li > a {
-        animation: none;
+@media screen and (prefers-reduced-motion: reduced) {
+    * {
+        animation: none !important;
+        transition: none !important;
     }
 }
