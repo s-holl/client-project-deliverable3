@@ -306,11 +306,11 @@ td:last-of-type, td:first-of-type {
 }
 
 td:last-of-type {
-    padding-right: 5%;
+    padding-right: 10%;
 }
 
 td:first-of-type {
-    padding-right: 5%;
+    padding-right: 10%;
 }
 
 td:nth-of-type(2n) {
